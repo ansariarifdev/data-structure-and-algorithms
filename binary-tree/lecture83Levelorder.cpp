@@ -80,3 +80,44 @@ int main() {
     
     return 0;
 }
+
+
+
+// Here goes another implementation involving insertion of nullptr
+
+/*
+void levelOrder(TreeNode* root) {
+    if(root == nullptr) {
+        return ;
+    }
+
+    queue<TreeNode* > q;
+    q.push(root);
+    q.push(nullptr);
+
+    while(!q.empty()) {
+        TreeNode* frontNode = q.front();
+        q.pop();
+
+        if(frontNode == nullptr) {
+            if(!q.empty()) {
+                cout << endl;
+                q.push(nullptr);
+                continue;
+            } else {
+                break;
+            }
+        }
+        cout << frontNode->val <<" ";
+
+        if(frontNode->left) {
+            q.push(frontNode->left);
+        }
+        if(frontNode->right) {
+            q.push(frontNode->right);
+        }
+
+    }
+}
+
+*/
