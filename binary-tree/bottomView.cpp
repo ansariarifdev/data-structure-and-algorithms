@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// TreeNode definition
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+// Function to return bottom view of binary tree
+vector<int> bottomView(TreeNode* root) {
+    // Your implementation goes here
+    if(root == nullptr) {
+        return {};
+    }
+
+    map<int, int> mp;
+    queue<pair<TreeNode*, int>> q;
+    q.push({root, 0});
+    vector<int> ans;
+
+    while(!q.empty()) {
+        auto [currentNode, level] = q.front();
+        q.pop();
+
+        mp[level] = currentNode->val;
+
+        if(currentNode->left) {
+            q.push({currentNode->left, level -1});
+        }
+        if(currentNode->right) {
+            q.push({currentNode->right, level + 1});
+        }
+    }
+
+    for(auto element: mp) {
+        ans.push_back(element.second);
+    }
+    return ans;
+}
+
+int main() {
+    /*
+         1
+       /   \
+      2     3
+     / \   / \
+    4   5 6   7
+           \
+            8
+
+    Expected Bottom View: 4 2 6 8 7
+    (Nodes visible when viewed from bottom, leftmost to rightmost)
+    */
+
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    root->right->left = new TreeNode(6);
+    root->right->right = new TreeNode(7);
+    root->right->left->right = new TreeNode(8);
+
+    vector<int> result = bottomView(root);
+    for (int val : result) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
