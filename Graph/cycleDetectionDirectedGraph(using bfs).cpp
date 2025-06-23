@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
 // Function to detect cycle in directed graph using BFS (Kahn's Algorithm)

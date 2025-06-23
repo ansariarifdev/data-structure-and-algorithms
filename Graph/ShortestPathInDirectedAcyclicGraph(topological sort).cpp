@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <climits>
 using namespace std;
 
 // Structure for weighted edge

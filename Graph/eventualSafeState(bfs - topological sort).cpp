@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
 // Function to find eventual safe states using BFS
