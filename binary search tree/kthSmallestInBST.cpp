@@ -9,11 +9,28 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
-int currentSmaller = 0;
-// Function to find the kth smallest element in a BST
-int kthSmallest(TreeNode* root, int k) {
+// Implementation of the solve function 
+void solve(TreeNode* root, int k, int& count, int& result) {
+    if(root == nullptr || result != -1) {
+        return ;
+    }
 
-    
+    solve(root->left, k, count, result);
+
+    count++;
+    if(count == k) {
+        result = root->val;
+        return ;
+    }
+
+    solve(root->right, k, count, result);
+}
+// Function to find the kth smallest element in a BST
+int kthSmallest(TreeNode* root, int k) {    
+    int count = 0;
+    int result = -1;
+    solve(root, k, count, result);
+    return result;
 }
 
 int main() {
