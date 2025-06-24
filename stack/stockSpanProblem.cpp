@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 using namespace std;
 
 class Solution {
@@ -7,6 +8,23 @@ public:
     // Function to calculate stock span values
     vector<int> calculateSpan(vector<int>& prices) {
         // Your implementation goes here
+        vector<int> ans(prices.size());
+        stack<int> st;
+
+        for(int i = 0; i < prices.size(); i++) {
+            while(!st.empty() and prices[st.top()] <= prices[i]) {
+                st.pop();
+            }
+
+            if(st.empty()) {
+                ans[i] = i + 1;
+            } else {
+                ans[i] = i - st.top();
+            }
+
+            st.push(i);
+        }
+        return ans;
     }
 };
 

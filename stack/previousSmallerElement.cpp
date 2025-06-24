@@ -7,16 +7,20 @@ class Solution {
 public:
     // Function to find previous smaller element for each array element
     vector<int> previousSmallerElements(vector<int>& arr) {
-        // Your implementation goes here
-        vector<int> ans(arr.size(), 0);
+        vector<int> ans(arr.size());
         stack<int> st;
 
-        for(int i = 0; i <= arr.size()-1; i++) {
-            while(!st.empty() and st.top() >= arr[i]) {
+        for(int i = 0; i < arr.size(); i++) {
+            while(!st.empty() and st.top() > arr[i]) {
                 st.pop();
             }
 
-            ans[i] = (st.empty()) ? -1 : st.top();
+            if(st.empty()) {
+                ans[i] = -1;
+            } else {
+                ans[i] = st.top();
+            }
+
             st.push(arr[i]);
         }
         return ans;

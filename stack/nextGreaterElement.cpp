@@ -8,17 +8,18 @@ public:
     // Function to find next greater element for each array element
     vector<int> nextGreaterElements(vector<int>& arr) {
         // Your implementation goes here
-        vector<int> ans(arr.size(), 0);
+        vector<int> ans(arr.size());
         stack<int> st;
 
         for(int i = arr.size()-1; i >= 0; i--) {
-            while(!st.empty() and st.top() <= arr[i]) {
+            while(!st.empty() and st.top() < arr[i]) {
                 st.pop();
             }
-            ans[i] = (st.empty()) ? -1 : st.top();
 
+            ans[i] = (st.empty()) ? -1 : st.top();
             st.push(arr[i]);
         }
+
         return ans;
     }
 };
