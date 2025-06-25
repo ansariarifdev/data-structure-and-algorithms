@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 using namespace std;
 
 class Solution {
@@ -7,6 +8,25 @@ public:
     // Function to find next greater elements in circular array
     vector<int> nextGreaterElements(vector<int>& nums) {
         // Your implementation goes here
+        vector<int> ans(nums.size(), -1);
+        stack<int> st;
+
+        for(int i = 2*nums.size()-1; i >= 0; i--) {
+            int index = i % nums.size();
+
+            while(!st.empty() and st.top() <= nums[index]) {
+                st.pop();
+            }
+
+            if(!st.empty()) {
+                ans[index] = st.top();
+            }
+
+            st.push(nums[index]);
+        }
+
+        return ans;
+
     }
 };
 

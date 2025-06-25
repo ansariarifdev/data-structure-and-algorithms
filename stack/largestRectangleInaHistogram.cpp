@@ -1,23 +1,71 @@
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <climits>
 using namespace std;
 
 class Solution {
 public:
     // Function to find the largest rectangle area in histogram
     int largestRectangleArea(vector<int>& heights) {
-        // Your implementation goes here
+        int n = heights.size();
+        vector<int> prev = previousSmaller(heights);
+        vector<int> next = nextSmaller(heights);
+
+        int ans = 0;
+        for(int i = 0; i < n; i++) {
+            int height = heights[i];
+            int left = prev[i];
+            int right = next[i];
+            if(right == -1) right = n; // If no smaller to the right, use n
+            int width = right - left - 1;
+            ans = max(ans, height * width);
+        }
+        return ans;
     }
 
 private:
     // Helper function to find previous smaller element indices
     vector<int> previousSmaller(vector<int>& heights) {
-        // Your implementation goes here
+        vector<int> previousSmaller(heights.size());
+        stack<int> st;
+
+        for(int i = 0; i < heights.size(); i++) {
+            while(!st.empty() && heights[st.top()] >= heights[i]) {
+                st.pop();
+            }
+
+            if(st.empty()) {
+                previousSmaller[i] = -1;
+            } else {
+                previousSmaller[i] = st.top();
+            }
+
+            st.push(i);
+        }
+        return previousSmaller;
     }
     
     // Helper function to find next smaller element indices
     vector<int> nextSmaller(vector<int>& heights) {
-        // Your implementation goes here
+        vector<int> nextSmaller(heights.size());
+        stack<int> st;
+
+        for(int i = heights.size()-1; i >= 0; i--) {
+            while(!st.empty() && heights[st.top()] >= heights[i]) {
+                st.pop();
+            }
+
+            if(st.empty()) {
+                nextSmaller[i] = -1;
+            } else {
+                nextSmaller[i] = st.top();
+            }
+
+            st.push(i);
+        }
+
+        return nextSmaller;
     }
 };
 
