@@ -11,6 +11,18 @@ struct ListNode {
 // Function to reverse a linked list
 ListNode* reverseList(ListNode* head) {
     // Your implementation goes here
+    ListNode* previous = nullptr;
+    ListNode* current = head;
+    ListNode* forward = nullptr;
+
+    while(current != nullptr) {
+        forward = current->next;
+        current->next = previous;
+        previous = current;
+        current = forward;
+    }
+
+    return previous;
 }
 
 // Helper function to print the linked list

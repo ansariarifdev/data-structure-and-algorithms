@@ -12,6 +12,20 @@ struct ListNode {
 // Function to detect cycle in a linked list
 bool hasCycle(ListNode* head) {
     // Your implementation goes here
+    ListNode* fast = head;
+    ListNode* slow = head;
+    bool isCyclePresent = false;
+
+    while(fast != nullptr and fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if(fast == slow) {
+            isCyclePresent = true;
+            break;
+        }
+    }
+    return isCyclePresent;
 }
 
 // Helper function to create a linked list with a cycle

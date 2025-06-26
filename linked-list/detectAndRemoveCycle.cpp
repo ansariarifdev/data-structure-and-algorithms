@@ -13,6 +13,33 @@ struct ListNode {
 // Function to detect and remove cycle in a linked list
 void detectAndRemoveCycle(ListNode* head) {
     // Your implementation goes here
+    ListNode* slow = head;
+    ListNode* fast = head;
+    bool hasCycle = false;
+
+    while(fast != nullptr and fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if(slow == fast) {
+            hasCycle = true;
+            break;
+        }
+    }
+
+    if(hasCycle) {
+        ListNode* previous = nullptr;
+        slow = head;
+
+        while(slow != fast) {
+            previous = fast;
+            slow = slow->next;
+            fast = fast->next;
+        }
+        if(slow == fast) {
+            previous->next = nullptr;
+        }
+    }
 }
 
 // Helper function to create a linked list with a cycle

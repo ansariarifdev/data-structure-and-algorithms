@@ -11,6 +11,14 @@ struct ListNode {
 // Function to find middle node of linked list
 ListNode* middleNode(ListNode* head) {
     // Your implementation goes here
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast != nullptr and fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
 }
 
 // Helper function to print the linked list
