@@ -2,14 +2,33 @@
 #include <vector>
 using namespace std;
 
-// Function to perform DFS traversal
-void dfs(vector<vector<int>>& isConnected, vector<bool>& visited, int city) {
-    // Your implementation goes here
-}
+// Implementation of the solve function(using dfs)
 
+void solve(vector<vector<int>>& isConnected, int index, vector<bool> &visited) {
+    if(visited[index]) {
+        return ;
+    }
+
+    visited[index] = true;
+    for(int i = 0; i < isConnected.size(); i++) {
+        if(isConnected[index][i] == 1 and visited[i] == false) {
+            solve(isConnected, i, visited);
+        }
+    }
+}
 // Function to find number of provinces
 int findProvinces(vector<vector<int>>& isConnected) {
-    // Your implementation goes here
+    int provinces = 0;
+    int n = isConnected.size();
+    vector<bool> visited(n, false);
+
+    for(int i = 0; i < n; i++) {
+        if(!visited[i]) {
+            solve(isConnected, i, visited);
+            provinces++;
+        }
+    }
+    return provinces;
 }
 
 int main() {

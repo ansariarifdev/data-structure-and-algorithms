@@ -3,9 +3,39 @@
 #include <queue>
 using namespace std;
 
+// Implementation of the solve function 
+void solve(vector<vector<int>> &adj, int i, vector<bool> &visited, vector<int> &ans) {
+    queue<int> q;
+    q.push(i);
+
+    while(!q.empty()) {
+        int currentNode = q.front();
+        q.pop();
+
+        visited[currentNode] = true;
+        ans.push_back(currentNode);
+
+        for(auto element: adj[currentNode]) {
+            if(!visited[element]) {
+                visited[element] = true;
+                q.push(element);
+            }
+        }
+    }
+}
+
 // Function to perform BFS traversal of graph
 vector<int> bfsTraversal(vector<vector<int>>& adj, int V, int startVertex) {
     // Your implementation goes here
+    vector<bool> visited(adj.size(), false);
+    vector<int> ans;
+
+    for(int i = 0; i < adj.size(); i++) {
+        if(!visited[i]) {
+            solve(adj, i, visited, ans);
+        }
+    }
+    return ans;
 }
 
 // Helper function to add edge in the graph
@@ -49,3 +79,14 @@ int main() {
 
     return 0;
 }
+
+/*
+
+    // this code if you want to start from a given source node
+
+    the above provided code is for general case(consider to cover all the components, disconnected also)
+    
+    if (!visited[startVertex]) {
+    solve(adj, startVertex, visited, ans);
+}
+*/

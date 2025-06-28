@@ -5,11 +5,31 @@ using namespace std;
 // Function to perform DFS traversal recursively
 void dfs(vector<vector<int>>& adj, int vertex, vector<bool>& visited, vector<int>& result) {
     // Your implementation goes here
+    if(visited[vertex]) {
+        return ;
+    }
+
+    visited[vertex] = true;
+    result.push_back(vertex);
+
+    for(auto element: adj[vertex]) {
+        dfs(adj, element, visited, result);
+    }
 }
 
 // Function to initiate DFS traversal of graph
 vector<int> dfsTraversal(vector<vector<int>>& adj, int V, int startVertex) {
     // Your implementation goes here
+    int n = adj.size();
+    vector<bool> visited(n, false);
+    vector<int> result;
+
+    for(int i = 0; i < n; i++) {
+        if(!visited[i]) {
+            dfs(adj, i, visited, result);
+        }
+    }
+    return result;
 }
 
 // Helper function to add edge in the graph
