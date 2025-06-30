@@ -2,18 +2,35 @@
 #include <vector>
 using namespace std;
 
-// Function to detect cycle in an undirected graph using DFS
-bool checkCycleDFS(vector<vector<int>>& adj, int vertex, int parent, vector<bool>& visited) {
-    // Your implementation goes here
+// Implementation of the solve function 
+bool solve(int currentNode, int parent, vector<bool> &visited, vector<vector<int>> &adj) {
+
+    visited[currentNode] = true;
+
+    for(auto neighbour: adj[currentNode]) {
+        if(!visited[neighbour]) {
+            if(solve(neighbour, currentNode, visited, adj) == true) {
+                return true;
+            }
+        } else {
+            if(neighbour != parent) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
+// Implementation of the isCycle function 
 bool isCycle(vector<vector<int>>& adj, int V) {
     vector<bool> visited(V, false);
-    
+
     for(int i = 0; i < V; i++) {
         if(!visited[i]) {
-            if(checkCycleDFS(adj, i, -1, visited))
+            // return true if cycle is present else false
+            if(solve(i, -1, visited, adj) == true) {
                 return true;
+            }
         }
     }
     return false;

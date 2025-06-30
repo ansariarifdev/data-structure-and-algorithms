@@ -6,6 +6,25 @@ using namespace std;
 // Function to detect cycle in an undirected graph using BFS
 bool checkCycleBFS(vector<vector<int>>& adj, int start, vector<bool>& visited) {
     // Your implementation goes here
+    queue<pair<int, int>> q;
+    q.push({start, -1});
+
+    while(!q.empty()) {
+        int currentNode = q.front().first;
+        int parent = q.front().second;
+
+        q.pop();
+
+        for(auto neighbour : adj[currentNode]) {
+            if(!visited[neighbour]) {
+                visited[neighbour] = true;
+                q.push({neighbour, currentNode});
+            } else if(neighbour != parent) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool isCycle(vector<vector<int>>& adj, int V) {

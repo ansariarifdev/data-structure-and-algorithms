@@ -1,26 +1,48 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
-// Function to detect cycle in a directed graph using DFS
-bool checkCycleDFS(vector<vector<int>>& adj, int vertex, vector<bool>& visited, vector<bool>& recursionStack) {
-    // Your implementation goes here
-}
+// Implementation of the solve function 
+bool solve(int currentNode, int parent, vector<bool> &visited, vector<vector<int>> &adj) {
+    queue<pair<int, int>> q;
+    q.push({currentNode, parent});
+    visited[currentNode] = true;
 
-bool isCyclic(vector<vector<int>>& adj, int V) {
-    vector<bool> visited(V, false);
-    vector<bool> recursionStack(V, false);
-    
-    for(int i = 0; i < V; i++) {
-        if(!visited[i]) {
-            if(checkCycleDFS(adj, i, visited, recursionStack))
-                return true;
+    while(!q.empty()) {
+        auto element = q.front();
+        q.pop();
+
+        for(auto neighbour: adj[element.first]) {
+            if(!visited[neighbour]) {
+                visited[neighbour] = true;
+                q.push({neighbour, element.second});
+            } else {
+                if(neighbour != element.second) {
+                    return true;
+                }
+            }
         }
     }
     return false;
 }
 
-// Helper function to add directed edge in the graph
+// Function to detect cycle in directed graph using BFS (Kahn's Algorithm)
+bool isCyclic(vector<vector<int>>& adj, int V) {
+    // Your implementation goes here
+    vector<bool> visited(V, false);
+
+    for(int i = 0; i < V; i++) {
+        if(!visited[i]) {
+            if(solve(i, -1, visited, adj) == true) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Helper function to add directed edge
 void addEdge(vector<vector<int>>& adj, int u, int v) {
     adj[u].push_back(v); // Only add edge from u to v (directed)
 }
@@ -28,24 +50,26 @@ void addEdge(vector<vector<int>>& adj, int u, int v) {
 int main() {
     /*
     Example 1: Directed Graph with cycle
-    0 → 1 → 2 → 3
-        ↑_______|
-    
-    Forms cycle: 1 → 2 → 3 → 1
+    0 → 1 → 2
+        ↑   ↓
+        3 ← 4
+
+    Forms cycle: 1 → 2 → 4 → 3 → 1
 
     Example 2: Directed Graph without cycle
-    0 → 1 → 2
+    0 → 1 → 3
         ↓
-        3
+        2
     */
 
     // Test case 1: Graph with cycle
-    int V1 = 4;
+    int V1 = 5;
     vector<vector<int>> adj1(V1);
     
     addEdge(adj1, 0, 1);
     addEdge(adj1, 1, 2);
-    addEdge(adj1, 2, 3);
+    addEdge(adj1, 2, 4);
+    addEdge(adj1, 4, 3);
     addEdge(adj1, 3, 1);  // Creates cycle
 
     cout << "Graph 1 " << (isCyclic(adj1, V1) ? "contains" : "doesn't contain") 
