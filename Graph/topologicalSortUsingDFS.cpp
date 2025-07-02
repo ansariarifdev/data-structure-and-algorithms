@@ -3,20 +3,36 @@
 #include <stack>
 using namespace std;
 
-// Function to perform DFS for topological sort
-void dfs(vector<vector<int>>& adj, int vertex, vector<bool>& visited, stack<int>& st) {
-    // Your implementation goes here
+// Implementation of the solve function
+void solve(int currentNode, vector<int> &visited, stack<int> &st, vector<vector<int>> &adj) {
+    visited[currentNode] = 1;
+
+    for(auto neighbour: adj[currentNode]) {
+        if(!visited[neighbour]) {
+            solve(neighbour, visited, st, adj);
+        }
+    }
+    st.push(currentNode);
 }
 
 // Function to perform topological sort
 vector<int> topologicalSort(vector<vector<int>>& adj, int V) {
-    vector<bool> visited(V, false);
+    vector<int> visited(V, 0);
     stack<int> st;
-    vector<int> result;
-    
-    // Your implementation goes here
-    
-    return result;
+
+    for(int i = 0; i < V; i++) {
+        if(!visited[i]) {
+            solve(i, visited, st, adj);
+        }
+    }
+
+    vector<int> ans;
+
+    while(!st.empty()) {
+        ans.push_back(st.top());
+        st.pop();
+    }
+    return ans;
 }
 
 // Helper function to add directed edge

@@ -5,7 +5,37 @@ using namespace std;
 
 // Function to perform Kahn's algorithm for topological sorting
 vector<int> topoSort(vector<vector<int>>& adj, int V) {
-    // Your implementation goes here
+    vector<int> indegree(V, 0);
+
+    for(int i = 0; i < V; i++) {
+        for(auto neighbour: adj[i]) {
+            indegree[neighbour]++;
+        }
+    }
+
+    vector<int> ans;
+    queue<int> q;
+    for(int i = 0; i < V; i++) {
+        if(indegree[i] == 0) {
+            q.push(i);
+        }
+    }
+
+    while(!q.empty()) {
+        int currentNode = q.front();
+        q.pop();
+        ans.push_back(currentNode);
+
+        for(auto neighbour: adj[currentNode]) {
+            indegree[neighbour]--;
+            if(indegree[neighbour] == 0) {
+                q.push(neighbour);
+            }
+        }
+    }
+
+    return ans;
+
 }
 
 // Helper function to add directed edge
